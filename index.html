@@ -116,7 +116,7 @@
 
         /* --- Styles de l'interface principale --- */
         .main-interface {
-            display: none; /* Le contenu principal est masqué par défaut */
+            display: none;
             width: 100%;
             box-sizing: border-box;
             background-color: #f0f2f5;
@@ -390,17 +390,19 @@
             }
 
             .stats-container-horizontal {
-                flex-wrap: wrap;
-                justify-content: center;
+                display: flex;
+                flex-wrap: nowrap; /* Empêche les cartes de se mettre sur plusieurs lignes */
+                overflow-x: auto; /* Ajoute un défilement horizontal */
+                padding-bottom: 10px; /* Ajoute un petit espace en bas pour la barre de défilement */
                 gap: 10px;
                 margin-right: 0;
                 width: 100%;
             }
 
             .stat-card {
-                flex-basis: 45%; 
-                max-width: none;
-                width: 100%;
+                flex-shrink: 0; /* Empêche les cartes de se contracter */
+                width: 150px; /* Définit une largeur fixe pour toutes les cartes */
+                padding: 15px;
             }
 
             .logout-container {
