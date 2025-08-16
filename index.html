@@ -116,7 +116,7 @@
 
         /* --- Styles de l'interface principale --- */
         .main-interface {
-            display: none;
+            display: none; /* Le contenu principal est masqué par défaut */
             width: 100%;
             box-sizing: border-box;
             background-color: #f0f2f5;
@@ -371,14 +371,15 @@
         /* --- Media Queries pour le mobile --- */
         @media (max-width: 768px) {
             body, html {
-                display: block; /* Permet le défilement normal */
+                display: block; 
                 padding: 10px;
-                align-items: flex-start; /* Réajuste l'alignement */
+                align-items: flex-start;
             }
 
             .main-interface {
                 width: 100%;
-                display: block;
+                padding: 10px;
+                box-sizing: border-box;
             }
 
             .top-container {
@@ -393,10 +394,11 @@
                 justify-content: center;
                 gap: 10px;
                 margin-right: 0;
+                width: 100%;
             }
 
             .stat-card {
-                flex-basis: 45%; /* Deux cartes par ligne */
+                flex-basis: 45%; 
                 max-width: none;
                 width: 100%;
             }
@@ -409,36 +411,7 @@
             }
             
             .logout-logo {
-                display: none; /* Cache le logo sur mobile pour gagner de la place */
-            }
-
-            .content-container {
-                padding: 20px;
-                margin: 10px;
-            }
-
-            .logo-container {
-                padding-top: 20px;
-            }
-
-            .logo {
-                max-width: 100px; /* Plus petit sur mobile */
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .table-container {
-                overflow-x: auto; /* Maintient le défilement horizontal */
-            }
-
-            table {
-                min-width: 600px; /* Assure que le tableau ne se compresse pas trop */
+                display: none;
             }
         }
     </style>
