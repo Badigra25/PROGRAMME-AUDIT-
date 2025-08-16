@@ -307,7 +307,7 @@
 
         .table-container {
             max-height: 500px;
-            overflow-y: auto;
+            overflow-x: auto; /* Permet le défilement horizontal */
             border: 1px solid #dee2e6;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -317,6 +317,7 @@
             width: 100%;
             border-collapse: collapse;
             background-color: #f8f9fa;
+            min-width: 800px; /* Ajout pour éviter que le tableau ne soit trop étroit */
         }
 
         thead {
@@ -365,6 +366,80 @@
 
         .fade-in {
             animation: fadeIn 0.8s ease-out;
+        }
+        
+        /* --- Media Queries pour le mobile --- */
+        @media (max-width: 768px) {
+            body, html {
+                display: block; /* Permet le défilement normal */
+                padding: 10px;
+                align-items: flex-start; /* Réajuste l'alignement */
+            }
+
+            .main-interface {
+                width: 100%;
+                display: block;
+            }
+
+            .top-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .stats-container-horizontal {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                margin-right: 0;
+            }
+
+            .stat-card {
+                flex-basis: 45%; /* Deux cartes par ligne */
+                max-width: none;
+                width: 100%;
+            }
+
+            .logout-container {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .logout-logo {
+                display: none; /* Cache le logo sur mobile pour gagner de la place */
+            }
+
+            .content-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .logo-container {
+                padding-top: 20px;
+            }
+
+            .logo {
+                max-width: 100px; /* Plus petit sur mobile */
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .table-container {
+                overflow-x: auto; /* Maintient le défilement horizontal */
+            }
+
+            table {
+                min-width: 600px; /* Assure que le tableau ne se compresse pas trop */
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -614,8 +689,7 @@
                         } else if (status === 'nr') {
                             td.classList.add('status-red');
                         }
-                    }
-                    else if (index === 8) {
+                    } else if (index === 8) {
                         const rapportStatus = String(cellData || '').toLowerCase().trim();
                         td.classList.add('status-cell');
                         if (rapportStatus === 'diffusé') {
@@ -657,9 +731,4 @@
         }
     </script>
 </body>
-
 </html>
-
-
-
-
