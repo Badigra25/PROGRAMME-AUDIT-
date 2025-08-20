@@ -3,610 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon programme d'audit interne</title>
+    <title>Programme d'audit interne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-        }
+       html, body, .wrapper { height: 100%; margin: 0; padding: 0; background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .wrapper { display: flex; flex-direction: column; height: 100vh;}
 
-        /* --- Styles de la page de connexion --- */
+        /* --- Connexion stylée --- */
         .login-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
+            background: #fff;
+            padding: 60px 50px 50px 50px;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px #4a80c730, 0 1.5px 6px #0056b320;
+            max-width: 490px;
+            min-width: 350px;
+            margin: 0 auto;
+            position: absolute;
+            left: 50%; top: 52%;
+            transform: translate(-50%, -53%);
+            z-index: 100;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: box-shadow 0.25s;
         }
-
-        .login-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 25px;
+        .login-container:hover {
+            box-shadow: 0 10px 40px #4a80c750, 0 2px 12px #0056b350;
         }
-
+        .login-header img { width: 150px; margin-bottom: 25px; }
         .login-container h1 {
             color: #0056b3;
-            margin-bottom: 5px;
-            font-size: 2rem;
+            margin-bottom: 12px;
+            font-size: 2.1rem;
             text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
         }
-
         .login-container h2 {
             color: #6c757d;
-            font-size: 1.5rem;
+            font-size: 1.15rem;
             font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 32px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.11em;
         }
-
-        .logo-placeholder {
-            width: 120px;
-            height: 120px;
-            background-color: #e9ecef;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #6c757d;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        .login-form {
-            width: 100%;
-        }
-
         .login-form input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
+            padding: 17px;
+            margin-bottom: 19px;
+            border: 1.5px solid #ced4da;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 1.13rem;
+            box-shadow: 0 1px 6px #0056b330;
+            transition: border 0.2s;
         }
-
+        .login-form input:focus {
+            border: 2px solid #007bff;
+            outline: none;
+        }
+        .password-container { position: relative; width: 100%; }
+        .password-container input { padding-right: 40px; }
+        .password-container .fa-eye, .password-container .fa-eye-slash {
+            position: absolute; right: 16px; top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer; color: #007bff; font-size: 1.2em;
+        }
         .login-form button {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             border: none;
-            background-color: #007bff;
+            background: linear-gradient(90deg,#007bff 70%,#0056b3 100%);
             color: #fff;
-            border-radius: 4px;
-            font-size: 1rem;
+            border-radius: 6px;
+            font-size: 1.14rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: 700;
+            box-shadow: 0 2px 8px #007bff30;
+            margin-top: 6px;
+            letter-spacing: 0.07em;
+            transition: background 0.22s, box-shadow 0.2s;
         }
-
         .login-form button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(90deg,#0056b3 60%,#007bff 100%);
+            box-shadow: 0 4px 14px #007bff40;
         }
-
         #login-error {
             color: #dc3545;
-            margin-top: 15px;
-            font-size: 0.9rem;
+            margin-top: 18px;
+            font-size: 1.11em;
             display: none;
-        }
-
-        .password-container {
-            position: relative;
-        }
-
-        .password-container input {
-            padding-right: 40px;
-        }
-
-        .password-container .fa-eye, .password-container .fa-eye-slash {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #6c757d;
-        }
-
-        /* --- Styles de l'interface principale --- */
-        .main-interface {
-            display: none;
-            width: 100%;
-            box-sizing: border-box;
-            background-color: #f0f2f5;
-            padding: 0;
-        }
-
-        .top-container {
-            position: sticky;
-            top: 0;
-            background-color: #f0f2f5;
-            z-index: 1001;
-            padding: 15px 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stats-container-horizontal {
-            display: flex;
-            justify-content: flex-start;
-            gap: 15px;
-            flex-grow: 1;
-            margin-right: 20px;
-        }
-
-        .stat-card {
-            background-color: #f8f9fa;
-            border-left: 5px solid;
-            padding: 10px;
-            border-radius: 4px;
-            transition: transform 0.2s;
-            flex: 1;
-            max-width: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .stat-card.green-border {
-            border-color: #28a745;
-        }
-
-        .stat-card.red-border {
-            border-color: #dc3545;
-        }
-
-        .stat-card.blue-border {
-            border-color: #007bff;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 5px;
             text-align: center;
         }
+        .hidden { display: none !important; }
 
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
+        /* --- HEADER & MAIN --- */
+        .header-bar { background: #fff; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px #0001;}
+        .header-title { font-size: 1.7rem; color: #0056b3; font-weight: bold;}
+        .header-update {
             color: #6c757d;
+            font-size: 1em;
+            margin-top: 2px;
+            margin-bottom: 4px;
         }
+        .header-right { display: flex; align-items: center; gap: 15px;}
+        .logout-logo { width: 48px; height: 48px; border-radius: 50%; object-fit: contain; background: #fff; border: 1px solid #ddd;}
+        .logout-button { background: #dc3545; color: #fff; border: none; border-radius: 25px; padding: 10px 22px; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: background 0.3s;}
+        .logout-button:hover { background: #b71c1c; }
 
-        .stat-card.green-border .stat-icon {
-            color: #28a745;
-        }
+        .main-content { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 24px 18px 10px 18px; gap: 14px; background: #f0f2f5;}
 
-        .stat-card.red-border .stat-icon {
-            color: #dc3545;
-        }
-
-        .stat-card.blue-border .stat-icon {
-            color: #007bff;
-        }
-
-        .logout-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .logout-logo-placeholder {
-            width: 80px;
-            height: 80px;
-            background-color: #e9ecef;
-            border-radius: 50%;
+        /* Statistiques ruban */
+        .stats-ribbon {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
-        }
-
-        .logout-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-        }
-
-        .logout-button {
-            padding: 10px 15px;
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1rem;
-        }
-
-        .logout-button:hover {
-            background-color: #c82333;
-        }
-
-        .content-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin: 20px;
-        }
-
-        .logo-container {
-            margin-bottom: 25px; 
-            padding-top: 50px;
-        }
-
-        h1 {
-            color: #0056b3;
-            margin-bottom: 5px;
-            font-size: 2.5rem;
-        }
-
-        #last-updated {
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-top: 0;
+            gap: 28px;
             margin-bottom: 15px;
+            background: #fff;
+            padding: 18px 0 12px 0;
+            border-radius: 9px;
+            box-shadow: 0 2px 6px #0001;
         }
-
-        .subtitle {
-            color: #6c757d;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-        }
-
-        .search-and-buttons {
+        .stat-block {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto 30px;
+            min-width: 120px;
         }
-        
-        .search-container {
+        .stat-label {
+            font-size: 1.16em;
+            color: #666;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+        }
+        .stat-value {
+            font-size: 2.1em;
+            font-weight: bold;
+            margin: 2px 0 0 0;
+            color: #0056b3;
+            letter-spacing: 0.02em;
+        }
+        .stat-r { color: #28a745 !important; }
+        .stat-nr { color: #dc3545 !important; }
+        .stat-blue { color: #007bff !important; }
+
+        .header-text { margin-bottom: 4px;}
+        .header-text h1 { color: #0056b3; margin: 0 0 5px 0; font-size: 1.35rem;}
+        #last-updated { color: #6c757d; font-size: 0.82rem; margin-bottom: 8px;}
+        .subtitle { color: #6c757d; font-size: 0.95rem; margin-bottom: 10px; }
+
+        /* SEARCH */
+        .search-panel { background: #fff; padding: 17px 15px 7px 15px; border-radius: 10px; box-shadow: 0 1px 4px #0002; display: flex; flex-direction: column; gap: 12px;}
+        .filters-form { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+        .filters-form .search-box { position: relative; }
+        .filters-form .search-box input { width: 170px; padding: 8px 16px 8px 34px; border: 1px solid #ced4da; border-radius: 25px; font-size: 0.98em; background: #f6f8fa;}
+        .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #6c757d; font-size: 1em;}
+        .action-buttons-aligned { display: flex; gap: 8px; margin-left: 8px;}
+        #exportPdfButton { background: #e74c3c; color: #fff; }
+        #showAllButton { background: #2ecc71; color: #fff; }
+        .action-button { padding: 7px 13px; border: none; border-radius: 23px; font-size: 0.98em; cursor: pointer; font-weight: 600; box-shadow: 0 4px 6px #0001; text-transform: uppercase; display: flex; align-items: center; gap: 5px; transition: all 0.2s;}
+        .action-button:hover { opacity: 0.9; transform: translateY(-2px) scale(1.02);}
+
+        /* --- TABLEAU ZOOM + HEADER STICKY --- */
+        .table-sticky-header {
+            position: sticky;
+            top: 80px; /* hauteur du header-bar (~65px + espace) */
+            z-index: 20;
+            background: #f0f2f5;
+            padding-top: 7px;
+            padding-bottom: 2px;
+            box-shadow: 0 1px 8px #0001;
+        }
+        .zoom-controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            gap: 20px;
-        }
-
-        .search-box {
-            position: relative;
-            flex-grow: 1;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 1px solid #ced4da;
-            border-radius: 50px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            padding-left: 50px;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            font-size: 1.2rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        .action-buttons button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            display: flex;
-            align-items: center;
+            justify-content: flex-end;
             gap: 8px;
+            margin-bottom: 3px;
         }
-
-        .action-buttons button:hover {
-            transform: translateY(-2px);
-        }
-
-        #exportPdfButton {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        #exportPdfButton:hover {
-            background-color: #c82333;
-        }
-
-        #showAllButton {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        #showAllButton:hover {
-            background-color: #218838;
-        }
-        
-        #dataDisplay {
-            min-height: 150px;
-            text-align: center;
-            padding-top: 10px;
-        }
-
         .table-container {
-            max-height: 500px;
-            overflow-x: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            height: 400px;
+            max-height: 400px;
+            overflow: auto;
+            margin-top: 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px #0002;
+            padding: 8px 2px;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #f8f9fa;
-            min-width: 800px;
+        #dataDisplay {
+            transition: transform 0.15s;
+            max-width: 100%;
         }
-
-        thead {
+        .table-auto { border-collapse: collapse; width: 100%; table-layout: fixed; background: #fff;}
+        .table-auto th, .table-auto td { border: 1px solid #dee2e6; padding: 7px 2px; background: #fff; font-size: 1em; vertical-align: middle; word-break: break-word; overflow: hidden;}
+        .table-auto th {
             position: sticky;
             top: 0;
-            background-color: #e9ecef;
+            background: #e9ecef;
             z-index: 10;
+            box-shadow: 0 2px 4px #0002;
         }
-        
-        th {
-            padding: 15px;
-            text-align: center; 
-            border: 1px solid #dee2e6;
-            font-weight: 600;
+        .status-cell { font-weight: bold; color: #fff; border-radius: 4px;}
+        .status-green { background: #28a745; }
+        .status-red { background: #dc3545; }
+        .no-data-message { color: #6c757d; font-style: italic; font-size: 1.05em; padding: 20px; text-align: center;}
+        .table-auto th, .table-auto td { width: calc(100% / 11); }
+        .table-auto th, .table-auto td, table th, table td {
+            text-align: center !important;
+            vertical-align: middle !important;
         }
-        
-        th:first-child {
-            text-align: left;
+        /* Agrandir et aligner à gauche la colonne POLE (2e colonne) */
+        .table-auto td:nth-child(2), table td:nth-child(2) {
+            min-width: 180px !important; width: 180px !important; max-width: 260px !important;
+            text-align: left !important; padding-left: 14px !important;
         }
-
-        td {
-            padding: 15px;
-            text-align: center; 
-            border: 1px solid #dee2e6;
+        .table-auto th:nth-child(2), table th:nth-child(2) {
+            min-width: 180px !important; width: 180px !important; max-width: 260px !important;
+            text-align: center !important;
         }
-        
-        td:first-child {
-            text-align: left;
+        /* ENTITE (3e colonne) */
+        .table-auto td:nth-child(3), table td:nth-child(3) {
+            min-width: 220px !important; width: 220px !important; max-width: 320px !important;
+            text-align: left !important; padding-left: 14px !important;
         }
-        
-        .status-cell {
-            font-weight: bold;
-            text-align: center;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
+        .table-auto th:nth-child(3), table th:nth-child(3) {
+            min-width: 220px !important; width: 220px !important; max-width: 320px !important;
+            text-align: center !important;
         }
-
-        .status-green {
-            background-color: #28a745;
+        /* DEBUT */
+        .table-auto th:nth-child(4), .table-auto td:nth-child(4), table th:nth-child(4), table td:nth-child(4) {
+            min-width: 130px !important; width: 130px !important; max-width: 180px !important;
         }
-
-        .status-red {
-            background-color: #dc3545;
+        /* FIN */
+        .table-auto th:nth-child(5), .table-auto td:nth-child(5), table th:nth-child(5), table td:nth-child(5) {
+            min-width: 130px !important; width: 130px !important; max-width: 180px !important;
         }
-
-        .no-data-message {
-            color: #6c757d;
-            font-style: italic;
-            font-size: 1rem;
+        /* DUREE */
+        .table-auto th:nth-child(6), .table-auto td:nth-child(6), table th:nth-child(6), table td:nth-child(6) {
+            min-width: 110px !important; width: 110px !important; max-width: 160px !important;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* RESPONSABLE */
+        .table-auto th:nth-child(7), .table-auto td:nth-child(7), table th:nth-child(7), table td:nth-child(7) {
+            min-width: 180px !important; width: 180px !important; max-width: 260px !important;
+            text-align: left !important; padding-left: 14px !important;
         }
-
-        .fade-in {
-            animation: fadeIn 0.8s ease-out;
+        /* AUDITEUR 1 */
+        .table-auto th:nth-child(8), .table-auto td:nth-child(8), table th:nth-child(8), table td:nth-child(8) {
+            min-width: 170px !important; width: 170px !important; max-width: 240px !important;
+            text-align: left !important; padding-left: 14px !important;
         }
-        
-        /* --- Styles du mode plein écran --- */
-        .fullscreen-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f0f2f5;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 2000;
-            overflow: auto;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .fullscreen-container.active {
-            display: flex;
+        /* AUDITEUR 2 */
+        .table-auto th:nth-child(9), .table-auto td:nth-child(9), table th:nth-child(9), table td:nth-child(9) {
+            min-width: 170px !important; width: 170px !important; max-width: 240px !important;
+            text-align: left !important; padding-left: 14px !important;
         }
 
-        .fullscreen-header {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        @media (max-width: 1100px) {
+            .main-content { padding: 8px; }
+            .stat-block { min-width: 100px; }
+            .login-container { max-width: 98vw; }
         }
-        
-        #backButton {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.3s;
+        @media (max-width: 900px) {
+            .main-content { padding: 7px 3px; }
+            .stats-ribbon { flex-direction: column; gap: 8px; }
         }
-
-        #backButton:hover {
-            background-color: #0056b3;
+        @media (max-width: 650px) {
+            .header-bar { flex-direction: column; gap: 10px; padding: 10px 5px;}
+            .main-content { padding: 3px;}
+            .search-panel { padding: 7px 4px;}
+            .filters-form .search-box input { width: 90px;}
+            .stat-block { min-width: 70px; }
+            .login-container { padding: 16px 4vw 16px 4vw; min-width: unset; }
         }
+        .login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        #exportAllPdfButton {
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.3s;
-            display: none; /* Hidden by default */
-        }
-        
-        #exportAllPdfButton:hover {
-            background-color: #c82333;
-        }
-        
-        .fullscreen-table-container {
-            width: 100%;
-            max-width: 1200px;
-            height: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-            overflow: auto;
-            flex-grow: 1;
-        }
+.login-header img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .fullscreen-table-container table {
-            min-width: 100%;
-            width: auto;
-        }
-
-        /* --- Media Queries pour le mobile --- */
-        @media (max-width: 768px) {
-            body, html {
-                display: block;
-                padding: 10px;
-                align-items: flex-start;
-            }
-
-            .main-interface {
-                width: 100%;
-                padding: 10px;
-                box-sizing: border-box;
-            }
-
-            .top-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .stats-container-horizontal {
-                display: flex;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                padding-bottom: 10px;
-                gap: 10px;
-                margin-right: 0;
-                width: 100%;
-            }
-
-            .stat-card {
-                flex-shrink: 0;
-                width: 150px;
-                padding: 15px;
-            }
-
-            .logout-container {
-                width: 100%;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .logout-logo-placeholder {
-                display: none;
-            }
-            
-            .logout-logo {
-                width: 60px;
-                height: 60px;
-            }
-
-            .search-and-buttons {
-                flex-direction: column;
-            }
-            
-            .search-container {
-                flex-direction: column;
-            }
-        }
+.login-container h2 {
+    color: #6c757d;
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-bottom: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    text-align: center; /* Centrage horizontal */
+    width: 100%;
+}
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-     <div id="login-page" class="login-container">
+<div class="wrapper">
+    <!-- Login -->
+    <div id="login-page" class="login-container">
         <div class="login-header">
             <img src="LOGO_DMS-removebg-preview.png" alt="Logo DMS" class="logo">
             <h1>Mon programme</h1>
             <h2>D'AUDIT INTERNE 2025</h2>
         </div>
-
         <form id="login-form" class="login-form">
             <input type="text" id="username" placeholder="Nom d'utilisateur" required>
             <div class="password-container">
@@ -617,406 +319,450 @@
         </form>
         <p id="login-error"></p>
     </div>
-
-    <div id="main-content" class="main-interface">
-        <div class="top-container">
-            <div class="stats-container-horizontal">
-                <div class="stat-card blue-border">
-                    <i class="fas fa-list-check stat-icon"></i>
-                    <div class="stat-label">Total Missions</div>
-                    <div class="stat-value" id="total-missions">0</div>
-                </div>
-                <div class="stat-card green-border">
-                    <i class="fas fa-clipboard-check stat-icon"></i>
-                    <div class="stat-label">Missions Réalisées</div>
-                    <div class="stat-value" id="realized-missions">0</div>
-                </div>
-                <div class="stat-card red-border">
-                    <i class="fas fa-clipboard-question stat-icon"></i>
-                    <div class="stat-label">Missions Non Réalisées</div>
-                    <div class="stat-value" id="unrealized-missions">0</div>
-                </div>
-                <div class="stat-card green-border">
-                    <i class="fas fa-circle-check stat-icon"></i>
-                    <div class="stat-label">Rapports Diffusés</div>
-                    <div class="stat-value" id="diffuse-reports">0</div>
-                </div>
-                <div class="stat-card red-border">
-                    <i class="fas fa-circle-xmark stat-icon"></i>
-                    <div class="stat-label">Rapports Non diffusés</div>
-                    <div class="stat-value" id="non-diffuse-reports">0</div>
-                </div>
+    <!-- Main -->
+    <div id="main-content" class="hidden">
+        <div class="header-bar">
+            <div>
+                <div class="header-title">Mon programme d'audit interne 2025</div>
+                <div class="header-update">Dernière mise à jour le 11/08/2025</div>
             </div>
-            <div class="logout-container">
+            <div class="header-right">
                 <img src="LOGO_DMS-removebg-preview.png" alt="Logo DMS" class="logout-logo">
                 <button id="logout-button" class="logout-button">Se déconnecter</button>
             </div>
         </div>
-        <div class="content-container">
-            <h1>Cherchez Votre Programme</h1>
-            <p id="last-updated"></p>
-            <p class="subtitle">Entrez un nom ou un mot-clé pour trouver votre programme.</p>
-            <form id="search-form" class="search-and-buttons">
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="searchFilter" placeholder="Rechercher par responsable ou auditeur...">
-                    </div>
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="searchStructure" placeholder="Rechercher par structure...">
-                    </div>
-                </div>
-                <div class="action-buttons">
-                    <button type="button" id="exportPdfButton"><i class="fas fa-file-pdf"></i>Exporter en PDF</button>
-                    <button type="button" id="showAllButton"><i class="fas fa-list"></i>Voir tout le programme</button>
-                </div>
-            </form>
-            <div id="dataDisplay">
-                </div>
-        </div>
-    </div>
-    
-    <div id="fullscreen-container" class="fullscreen-container">
-        <div class="fullscreen-header">
-            <button id="backButton"><i class="fas fa-arrow-left"></i> Retour</button>
-            <button id="exportAllPdfButton"><i class="fas fa-file-pdf"></i>Exporter tout</button>
-        </div>
-        <div id="fullscreen-table-container" class="fullscreen-table-container"></div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-    <script>
-        const SPREADSHEET_ID = '1JsbNg0BbuNP94tXtS09X6qbGv8Cf2hKUWUzZJbzeOVI';
-        const API_KEY = 'AIzaSyAfJDEkFh0J9K0ngYPgtYhOs5P_Q8WEyTc';
-        const SHEET_NAME = 'PROGRAMME';
-        const RANGE_DATA = 'A6:I';
-        const RANGE_DATE = 'A4:A4';
-
-        const TABLE_HEADERS = ["ENTITE", "DEBUT", "FIN", "DUREE", "RESPONSABLE", "AUDITEUR 1", "AUDITEUR 2", "STATUT", "RAPPORT"];
-
-        let allData = [];
-        let currentFilteredData = [];
-
-        const USERNAME = 'Auditeurin2025';
-        const PASSWORD = 'SDAUDITP2025@';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginForm = document.getElementById('login-form');
-            const loginPage = document.getElementById('login-page');
-            const mainContent = document.getElementById('main-content');
-            const loginError = document.getElementById('login-error');
-            const logoutButton = document.getElementById('logout-button');
-            const togglePassword = document.getElementById('toggle-password');
-            const passwordInput = document.getElementById('password');
-            const searchFilter = document.getElementById('searchFilter');
-            const searchStructure = document.getElementById('searchStructure');
-            const exportPdfButton = document.getElementById('exportPdfButton');
-            const showAllButton = document.getElementById('showAllButton');
-            const backButton = document.getElementById('backButton');
-            const exportAllPdfButton = document.getElementById('exportAllPdfButton');
-
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const usernameInput = document.getElementById('username').value;
-                const passwordInputVal = passwordInput.value;
-
-                if (usernameInput === USERNAME && passwordInputVal === PASSWORD) {
-                    loginPage.style.display = 'none';
-                    mainContent.style.display = 'block';
-                    fetchGoogleSheetData();
-                    fetchLastUpdatedDate();
-                    displayMessage("Veuillez commencer à taper pour voir les résultats.");
-                } else {
-                    loginError.textContent = 'Nom d\'utilisateur ou mot de passe incorrect.';
-                    loginError.style.display = 'block';
-                }
-            });
-
-            logoutButton.addEventListener('click', () => {
-                mainContent.style.display = 'none';
-                loginPage.style.display = 'flex';
-                document.getElementById('username').value = '';
-                passwordInput.value = '';
-                loginError.style.display = 'none';
-                
-                document.getElementById('searchFilter').value = '';
-                document.getElementById('searchStructure').value = '';
-                displayMessage("Veuillez commencer à taper pour voir les résultats.");
-            });
-
-            togglePassword.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                togglePassword.classList.toggle('fa-eye-slash');
-            });
+        <div class="main-content">
             
-            searchFilter.addEventListener('keyup', filterData);
-            searchStructure.addEventListener('keyup', filterData);
-            exportPdfButton.addEventListener('click', () => exportToPdf(currentFilteredData));
-            showAllButton.addEventListener('click', showAllData);
-            backButton.addEventListener('click', hideFullscreen);
-            exportAllPdfButton.addEventListener('click', () => exportToPdf(allData));
-        });
+            <div class="stats-ribbon">
+                <div class="stat-block">
+                    <span class="stat-label">Missions Réalisées</span>
+                    <span class="stat-value stat-r" id="realized-missions">0</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Missions Non Réalisées</span>
+                    <span class="stat-value stat-nr" id="unrealized-missions">0</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Rapports Diffusés</span>
+                    <span class="stat-value stat-r" id="diffuse-reports">0</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Rapports Non diffusés</span>
+                    <span class="stat-value stat-nr" id="non-diffuse-reports">0</span>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Total Missions</span>
+                    <span class="stat-value stat-blue" id="total-missions">0</span>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1>Cherchez Votre Programme</h1>
+               
+                <div class="subtitle">Entrez un nom ou un mot-clé pour trouver votre programme.</div>
+            </div>
+            <div class="search-panel">
+                <form id="search-form" class="filters-form" onsubmit="return false;">
+                    <div class="search-box">
+                        <i class="fas fa-user-friends search-icon"></i>
+                        <input type="text" id="searchName" placeholder="Rechercher par responsable ou auditeur...">
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-building search-icon"></i>
+                        <input type="text" id="searchSociety" placeholder="Rechercher par société...">
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-sitemap search-icon"></i>
+                        <input type="text" id="searchPole" placeholder="Rechercher par pôle...">
+                    </div>
+                    <div class="action-buttons-aligned">
+                        <button type="button" id="exportPdfButton" class="action-button" title="Exporter les résultats en PDF">
+                            <i class="fas fa-file-pdf"></i>Exporter PDF
+                        </button>
+                        <button type="button" id="showAllButton" class="action-button" title="Voir tout le programme">
+                            <i class="fas fa-list"></i>Tout afficher
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Sticky Zoom + Tableau -->
+            <div class="table-sticky-header">
+                <div class="zoom-controls">
+                    <button id="zoomInBtn" class="action-button" title="Zoomer le tableau" style="background:#007bff; color:#fff;"><i class="fas fa-search-plus"></i> Zoom +</button>
+                    <button id="zoomOutBtn" class="action-button" title="Dézoomer le tableau" style="background:#007bff; color:#fff;"><i class="fas fa-search-minus"></i> Zoom -</button>
+                    <button id="resetZoomBtn" class="action-button" title="Réinitialiser le zoom" style="background:#6c757d; color:#fff;"><i class="fas fa-compress"></i> Reset</button>
+                </div>
+            </div>
+            <div class="table-container" id="table-content">
+                <div id="dataDisplay"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+// --- Variables et identifiants privés ---
+const SPREADSHEET_ID = '1JsbNg0BbuNP94tXtS09X6qbGv8Cf2hKUWUzZJbzeOVI';
+const API_KEY = 'AIzaSyAfJDEkFh0J9K0ngYPgtYhOs5P_Q8WEyTc';
+const USERNAME = 'Auditeurin2025';
+const PASSWORD = 'SDAUDITP2025@';
+const SHEET_NAME = 'PROGRAMME';
+const RANGE_DATA = 'A6:K';
+const RANGE_DATE = 'A4:A4';
+const TABLE_HEADERS = ["SOCIETE", "POLE", "ENTITE", "DEBUT", "FIN", "DUREE", "RESPONSABLE", "AUDITEUR 1", "AUDITEUR 2", "STATUT", "RAPPORT"];
+let allData = [];
+let currentFilteredData = [];
+let filterTimeout;
 
-        async function fetchGoogleSheetData() {
-            try {
-                const dataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!${RANGE_DATA}?key=${API_KEY}`;
-                const dataResponse = await fetch(dataUrl);
-                if (!dataResponse.ok) {
-                    throw new Error(`Erreur HTTP: ${dataResponse.status}`);
-                }
-                const data = await dataResponse.json();
-                allData = data.values;
-                sortDataByDate(allData);
-                updateStats(allData);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données :", error);
-                displayMessage("Erreur lors du chargement des données. Veuillez vérifier la connexion.");
-            }
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('login-form');
+    const loginPage = document.getElementById('login-page');
+    const mainContent = document.getElementById('main-content');
+    const loginError = document.getElementById('login-error');
+    const logoutButton = document.getElementById('logout-button');
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+    const searchName = document.getElementById('searchName');
+    const searchSociety = document.getElementById('searchSociety');
+    const searchPole = document.getElementById('searchPole');
+    const exportPdfButton = document.getElementById('exportPdfButton');
+    const showAllButton = document.getElementById('showAllButton');
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const usernameInput = document.getElementById('username').value;
+        const passwordInputVal = passwordInput.value;
+        if (usernameInput === USERNAME && passwordInputVal === PASSWORD) {
+            loginPage.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+            fetchGoogleSheetData();
+            fetchLastUpdatedDate();
+            displayMessage("Veuillez commencer à taper pour voir les résultats.");
+        } else {
+            loginError.textContent = 'Nom d\'utilisateur ou mot de passe incorrect.';
+            loginError.style.display = 'block';
         }
-
-        function sortDataByDate(data) {
-            const dateIndex = 1;
-            data.sort((a, b) => {
-                const dateA = parseDate(a[dateIndex]);
-                const dateB = parseDate(b[dateIndex]);
-                return dateA - dateB;
-            });
+    });
+    logoutButton.addEventListener('click', () => {
+        mainContent.classList.add('hidden');
+        loginPage.classList.remove('hidden');
+        document.getElementById('username').value = '';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+        searchName.value = '';
+        searchSociety.value = '';
+        searchPole.value = '';
+        displayMessage("Veuillez commencer à taper pour voir les résultats.");
+        updateStats(allData);
+    });
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
+    searchName.addEventListener('input', triggerFilter);
+    searchSociety.addEventListener('input', triggerFilter);
+    searchPole.addEventListener('input', triggerFilter);
+    exportPdfButton.addEventListener('click', () => exportToPdf(currentFilteredData));
+    showAllButton.addEventListener('click', showAllData);
+});
+function triggerFilter() {
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(filterData, 200);
+}
+async function fetchGoogleSheetData() {
+    try {
+        const dataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!${RANGE_DATA}?key=${API_KEY}`;
+        const dataResponse = await fetch(dataUrl);
+        if (!dataResponse.ok) throw new Error(`Erreur HTTP: ${dataResponse.status}`);
+        const data = await dataResponse.json();
+        allData = data.values || [];
+        sortDataByDate(allData);
+        updateStats(allData);
+    } catch (error) {
+        displayMessage("Erreur lors du chargement des données. Veuillez vérifier la connexion.");
+    }
+}
+function sortDataByDate(data) {
+    const dateIndex = 3;
+    data.sort((a, b) => parseDate(a[dateIndex]) - parseDate(b[dateIndex]));
+}
+function parseDate(dateString) {
+    if (!dateString) return new Date(0);
+    const parts = dateString.split('/');
+    if (parts.length !== 3) return new Date(0);
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+async function fetchLastUpdatedDate() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!${RANGE_DATE}?key=${API_KEY}`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+        const data = await response.json();
+        const dateElement = document.getElementById('last-updated');
+        if (data.values && data.values.length > 0) {
+            const date = data.values[0][0];
+            dateElement.textContent = `Dernière mise à jour le ${date}`;
+        } else {
+            dateElement.textContent = 'Date non disponible';
         }
+    } catch (error) {
+        document.getElementById('last-updated').textContent = "Erreur de chargement de la date";
+    }
+}
+function updateStats(data) {
+    if (!data) return;
+    let totalMissions = data.length, realizedMissions = 0, unrealizedMissions = 0, diffusedReports = 0, nonDiffusedReports = 0;
+    const statutIndex = 9, rapportIndex = 10;
+    data.forEach(row => {
+        const missionStatus = String(row[statutIndex] || '').toLowerCase().trim();
+        const rapportStatus = String(row[rapportIndex] || '').toLowerCase().trim();
+        if (["r", "réalisé", "réalisée"].includes(missionStatus)) realizedMissions++;
+        else if (["nr", "non réalisé", "non réalisée"].includes(missionStatus)) unrealizedMissions++;
+        if (rapportStatus === 'diffusé') diffusedReports++;
+        if ((["r", "réalisé", "réalisée"].includes(missionStatus)) && rapportStatus === 'non diffusé') nonDiffusedReports++;
+    });
+    document.getElementById('total-missions').textContent = totalMissions;
+    document.getElementById('realized-missions').textContent = realizedMissions;
+    document.getElementById('unrealized-missions').textContent = unrealizedMissions;
+    document.getElementById('diffuse-reports').textContent = diffusedReports;
+    document.getElementById('non-diffuse-reports').textContent = nonDiffusedReports;
+}
+function displayData(dataToDisplay) {
+    const dataDisplayElement = document.getElementById('dataDisplay');
+    dataDisplayElement.innerHTML = '';
+    if (!dataToDisplay || dataToDisplay.length === 0) {
+        displayMessage("Aucun résultat ne correspond à votre recherche.");
+        return;
+    }
+    const tableDiv = createTable(dataToDisplay);
+    dataDisplayElement.appendChild(tableDiv);
+}
+function filterData() {
+    const nameFilterValue = document.getElementById('searchName').value.trim().toLowerCase();
+    const societyFilterValue = document.getElementById('searchSociety').value.trim().toLowerCase();
+    const poleFilterValue = document.getElementById('searchPole').value.trim().toLowerCase();
+    if (nameFilterValue === '' && societyFilterValue === '' && poleFilterValue === '') {
+        displayMessage("Veuillez commencer à taper pour voir les résultats.");
+        updateStats(allData);
+        currentFilteredData = [];
+        return;
+    }
+    if (allData.length === 0) return;
+    const filtered = allData.filter(row => {
+        const societyCell = String(row[0] || '').toLowerCase();
+        const poleCell = String(row[1] || '').toLowerCase();
+        const nameCellE = String(row[6] || '').toLowerCase();
+        const nameCellF = String(row[7] || '').toLowerCase();
+        const nameCellG = String(row[8] || '').toLowerCase();
+        const nameMatch = nameFilterValue === '' || nameCellE.includes(nameFilterValue) || nameCellF.includes(nameFilterValue) || nameCellG.includes(nameFilterValue);
+        const societyMatch = societyFilterValue === '' || societyCell.includes(societyFilterValue);
+        const poleMatch = poleFilterValue === '' || poleCell.includes(poleFilterValue);
+        return nameMatch && societyMatch && poleMatch;
+    });
+    sortDataByDate(filtered);
+    currentFilteredData = filtered;
+    displayData(filtered);
+    updateStats(filtered);
+}
+function displayMessage(message) {
+    const dataDisplayElement = document.getElementById('dataDisplay');
+    dataDisplayElement.innerHTML = `<div class="no-data-message">${message}</div>`;
+}
+function exportToPdf(dataToExport) {
+    if (!dataToExport || dataToExport.length === 0) {
+        alert("Aucune donnée à exporter.");
+        return;
+    }
+    // Création d'un conteneur temporaire pour le PDF
+    const tempContainer = document.createElement('div');
+    tempContainer.style.padding = '15px';
+    tempContainer.style.width = '2200px'; // Largeur très grande pour toutes les colonnes
+    tempContainer.style.maxWidth = 'none';
+    tempContainer.style.overflowX = 'auto';
 
-        function parseDate(dateString) {
-            if (!dateString) return new Date(0);
-            const parts = dateString.split('/');
-            if (parts.length !== 3) {
-                console.error(`Format de date invalide : ${dateString}`);
-                return new Date(0);
-            }
-            return new Date(parts[2], parts[1] - 1, parts[0]);
-        }
+    // Logo centré
+    const logo = document.createElement('img');
+    logo.src = "LOGO_DMS-removebg-preview.png";
+    logo.style.display = "block";
+    logo.style.margin = "0 auto 10px auto";
+    logo.style.width = "120px";
+    tempContainer.appendChild(logo);
 
-        async function fetchLastUpdatedDate() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!${RANGE_DATE}?key=${API_KEY}`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`Erreur HTTP: ${response.status}`);
-                }
-                const data = await response.json();
-                const dateElement = document.getElementById('last-updated');
-                if (data.values && data.values.length > 0) {
-                    const date = data.values[0][0];
-                    dateElement.textContent = `Dernière mise à jour le ${date}`;
-                } else {
-                    dateElement.textContent = 'Date non disponible';
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération de la date de mise à jour :", error);
-                document.getElementById('last-updated').textContent = "Erreur de chargement de la date";
-            }
-        }
+    // Date et heure de téléchargement centrées
+    const now = new Date();
+    const dateTime = now.toLocaleDateString('fr-FR') + " " + now.toLocaleTimeString('fr-FR');
+    const datePara = document.createElement('div');
+    datePara.style.textAlign = "center";
+    datePara.style.marginBottom = "10px";
+    datePara.style.fontSize = "1.1em";
+    datePara.innerHTML = `<strong>Téléchargé le :</strong> ${dateTime}`;
+    tempContainer.appendChild(datePara);
 
-        function updateStats(data) {
-            if (!data) return;
+    // Titre centré
+    const title = document.createElement('h2');
+    title.textContent = "Programme d'audit interne 2025";
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '18px';
+    tempContainer.appendChild(title);
 
-            let totalMissions = data.length;
-            let realizedMissions = 0;
-            let unrealizedMissions = 0;
-            let diffusedReports = 0;
-            let nonDiffusedReports = 0;
+    // Tableau adapté pour le PDF (centré, large)
+    const table = document.createElement('table');
+    table.style.borderCollapse = 'collapse';
+    table.style.width = '2200px'; // Largeur très grande
+    table.style.maxWidth = 'none';
+    table.style.tableLayout = 'auto';
+    table.style.fontSize = "0.95em";
+    table.style.marginTop = "10px";
+    table.style.overflowX = "auto";
 
-            data.forEach(row => {
-                const missionStatus = String(row[7] || '').toLowerCase().trim();
-                const rapportStatus = String(row[8] || '').toLowerCase().trim();
-                
-                if (missionStatus === 'r') {
-                    realizedMissions++;
-                } else if (missionStatus === 'nr') {
-                    unrealizedMissions++;
-                }
-                
+    // Thead
+    const TABLE_HEADERS = ["SOCIETE", "POLE", "ENTITE", "DEBUT", "FIN", "DUREE", "RESPONSABLE", "AUDITEUR 1", "AUDITEUR 2", "STATUT", "RAPPORT"];
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    TABLE_HEADERS.forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        th.style.border = '1px solid #999';
+        th.style.background = '#e9ecef';
+        th.style.padding = '4px';
+        th.style.textAlign = 'center';
+        th.style.fontWeight = 'bold';
+        th.style.width = "200px"; // largeur fixe pour chaque colonne
+        th.style.wordBreak = "break-word";
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Tbody
+    const tbody = document.createElement('tbody');
+    dataToExport.forEach(rowData => {
+        const tr = document.createElement('tr');
+        rowData.forEach((cellData, index) => {
+            const td = document.createElement('td');
+            td.textContent = cellData;
+            td.style.border = '1px solid #999';
+            td.style.padding = '3px 2px';
+            td.style.wordBreak = "break-word";
+            td.style.textAlign = "center";
+            td.style.width = "200px";
+            // Statut coloré
+            if(index===9) {
+                td.style.background = "#28a745";
+                td.style.color = "#fff";
+                td.style.fontWeight = "bold";
+            } else if(index===10) {
+                const rapportStatus = String(cellData || '').toLowerCase().trim();
+                td.style.fontWeight = "bold";
                 if (rapportStatus === 'diffusé') {
-                    diffusedReports++;
+                    td.style.background = "#28a745";
+                    td.style.color = "#fff";
+                } else if (rapportStatus === 'non diffusé') {
+                    td.style.background = "#dc3545";
+                    td.style.color = "#fff";
                 }
-                
-                if (missionStatus === 'r' && rapportStatus === 'non diffusé') {
-                    nonDiffusedReports++;
+            }
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    tempContainer.appendChild(table);
+
+    // Options html2pdf
+    const options = {
+        margin: [10, 10, 10, 10],
+        filename: 'programme_audit_interne.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3 }, // Résolution élevée
+        jsPDF: { unit: 'mm', format: 'a2', orientation: 'landscape' }, // Format large paysage
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(options).from(tempContainer).save();
+}
+function showAllData() {
+    document.getElementById('searchName').value = '';
+    document.getElementById('searchSociety').value = '';
+    document.getElementById('searchPole').value = '';
+    displayData(allData);
+    updateStats(allData);
+    currentFilteredData = allData;
+}
+function createTable(dataToDisplay) {
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    const headerRow = document.createElement('tr');
+    TABLE_HEADERS.forEach(headerText => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    dataToDisplay.forEach(rowData => {
+        const tr = document.createElement('tr');
+        rowData.forEach((cellData, index) => {
+            const td = document.createElement('td');
+            td.textContent = cellData;
+
+            const statutIndex = 9;
+            const rapportIndex = 10;
+
+            if (index === statutIndex) {
+                const status = String(cellData || '').toLowerCase().trim();
+                td.classList.add('status-cell');
+                if (status === 'r') {
+                    td.classList.add('status-green');
+                } else if (status === 'nr') {
+                    td.classList.add('status-red');
                 }
-            });
-
-            document.getElementById('total-missions').textContent = totalMissions;
-            document.getElementById('realized-missions').textContent = realizedMissions;
-            document.getElementById('unrealized-missions').textContent = unrealizedMissions;
-            document.getElementById('diffuse-reports').textContent = diffusedReports;
-            document.getElementById('non-diffuse-reports').textContent = nonDiffusedReports;
-        }
-
-        function displayData(dataToDisplay) {
-            const dataDisplayElement = document.getElementById('dataDisplay');
-            dataDisplayElement.innerHTML = '';
-
-            if (!dataToDisplay || dataToDisplay.length === 0) {
-                displayMessage("Aucun résultat ne correspond à votre recherche.");
-                return;
+            } else if (index === rapportIndex) {
+                const rapportStatus = String(cellData || '').toLowerCase().trim();
+                td.classList.add('status-cell');
+                if (rapportStatus === 'diffusé') {
+                    td.classList.add('status-green');
+                } else if (rapportStatus === 'non diffusé') {
+                    td.classList.add('status-red');
+                }
             }
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    return table;
+}
+// --- Fonction zoom du tableau ---
+let currentZoom = 1;
+const minZoom = 0.5;
+const maxZoom = 2.5;
+const zoomStep = 0.1;
 
-            const tableContainer = document.createElement('div');
-            tableContainer.classList.add('table-container');
+function updateTableZoom() {
+    const dataDisplay = document.getElementById('dataDisplay');
+    dataDisplay.style.transform = `scale(${currentZoom})`;
+    dataDisplay.style.transformOrigin = "top left";
+}
 
-            const table = createTable(dataToDisplay);
-            tableContainer.appendChild(table);
-            dataDisplayElement.appendChild(tableContainer);
-            dataDisplayElement.classList.add('fade-in');
-        }
-
-        function filterData() {
-            const nameFilterValue = document.getElementById('searchFilter').value.trim().toLowerCase();
-            const structureFilterValue = document.getElementById('searchStructure').value.trim().toLowerCase();
-            
-            if (nameFilterValue === '' && structureFilterValue === '') {
-                displayMessage("Veuillez commencer à taper pour voir les résultats.");
-                updateStats(allData);
-                currentFilteredData = [];
-                return; 
-            }
-
-            if (allData.length === 0) {
-                return;
-            }
-
-            const filtered = allData.filter(row => {
-                const structureCell = String(row[0] || '').toLowerCase();
-                const nameCellE = String(row[4] || '').toLowerCase();
-                const nameCellF = String(row[5] || '').toLowerCase();
-                const nameCellG = String(row[6] || '').toLowerCase();
-
-                const nameMatch = nameFilterValue === '' || nameCellE.includes(nameFilterValue) || nameCellF.includes(nameFilterValue) || nameCellG.includes(nameFilterValue);
-                const structureMatch = structureFilterValue === '' || structureCell.includes(structureFilterValue);
-
-                return nameMatch && structureMatch;
-            });
-            
-            sortDataByDate(filtered);
-            currentFilteredData = filtered;
-            displayData(filtered);
-            updateStats(filtered);
-        }
-
-        function displayMessage(message) {
-            const dataDisplayElement = document.getElementById('dataDisplay');
-            dataDisplayElement.innerHTML = `<p class="no-data-message">${message}</p>`;
-        }
-
-        function exportToPdf(dataToExport) {
-            if (!dataToExport || dataToExport.length === 0) {
-                alert("Aucune donnée à exporter.");
-                return;
-            }
-
-            const tempContainer = document.createElement('div');
-            tempContainer.style.padding = '20px';
-            
-            const title = document.createElement('h1');
-            title.textContent = 'Programme d\'audit interne 2025';
-            title.style.textAlign = 'center';
-            tempContainer.appendChild(title);
-            
-            const table = createTable(dataToExport);
-            tempContainer.appendChild(table);
-
-            const options = {
-                margin: [15, 15, 15, 15],
-                filename: 'programme_audit_interne.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' }
-            };
-            
-            html2pdf().set(options).from(tempContainer).save();
-        }
-
-        function showAllData() {
-            const mainContent = document.getElementById('main-content');
-            const fullscreenContainer = document.getElementById('fullscreen-container');
-            const fullscreenTableContainer = document.getElementById('fullscreen-table-container');
-            const exportAllPdfButton = document.getElementById('exportAllPdfButton');
-
-            document.getElementById('searchFilter').value = '';
-            document.getElementById('searchStructure').value = '';
-            
-            mainContent.style.display = 'none';
-            fullscreenContainer.classList.add('active');
-            exportAllPdfButton.style.display = 'inline-flex';
-
-            const table = createTable(allData);
-            fullscreenTableContainer.innerHTML = '';
-            fullscreenTableContainer.appendChild(table);
-            updateStats(allData);
-        }
-        
-        function hideFullscreen() {
-            const mainContent = document.getElementById('main-content');
-            const fullscreenContainer = document.getElementById('fullscreen-container');
-            const exportAllPdfButton = document.getElementById('exportAllPdfButton');
-            
-            fullscreenContainer.classList.remove('active');
-            mainContent.style.display = 'block';
-            exportAllPdfButton.style.display = 'none';
-
-            const nameFilterValue = document.getElementById('searchFilter').value.trim().toLowerCase();
-            const structureFilterValue = document.getElementById('searchStructure').value.trim().toLowerCase();
-            if (nameFilterValue === '' && structureFilterValue === '') {
-                displayMessage("Veuillez commencer à taper pour voir les résultats.");
-            } else {
-                displayData(currentFilteredData);
-            }
-            updateStats(allData);
-        }
-
-        function createTable(dataToDisplay) {
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            const tbody = document.createElement('tbody');
-
-            const headerRow = document.createElement('tr');
-            TABLE_HEADERS.forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-
-            dataToDisplay.forEach(rowData => {
-                const tr = document.createElement('tr');
-                rowData.forEach((cellData, index) => {
-                    const td = document.createElement('td');
-                    td.textContent = cellData;
-
-                    if (index === 7) {
-                        const status = String(cellData || '').toLowerCase().trim();
-                        td.classList.add('status-cell');
-                        if (status === 'r') {
-                            td.classList.add('status-green');
-                        } else if (status === 'nr') {
-                            td.classList.add('status-red');
-                        }
-                    } else if (index === 8) {
-                        const rapportStatus = String(cellData || '').toLowerCase().trim();
-                        td.classList.add('status-cell');
-                        if (rapportStatus === 'diffusé') {
-                            td.classList.add('status-green');
-                        } else if (rapportStatus === 'non diffusé') {
-                            td.classList.add('status-red');
-                        }
-                    }
-                    tr.appendChild(td);
-                });
-                tbody.appendChild(tr);
-            });
-            table.appendChild(tbody);
-            return table;
-        }
-    </script>
+document.getElementById('zoomInBtn').addEventListener('click', () => {
+    if (currentZoom < maxZoom) {
+        currentZoom += zoomStep;
+        updateTableZoom();
+    }
+});
+document.getElementById('zoomOutBtn').addEventListener('click', () => {
+    if (currentZoom > minZoom) {
+        currentZoom -= zoomStep;
+        updateTableZoom();
+    }
+});
+document.getElementById('resetZoomBtn').addEventListener('click', () => {
+    currentZoom = 1;
+    updateTableZoom();
+});
+</script>
 </body>
 </html>
